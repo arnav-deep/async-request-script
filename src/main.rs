@@ -1,4 +1,4 @@
-use std::{collections::HashMap, time::Instant};
+use std::collections::HashMap;
 
 use futures::{stream, StreamExt};
 // can use the rand library as well for producing random data if required.
@@ -24,10 +24,10 @@ async fn main() {
                     .post(url)
                     .json(&json_body.clone())
                     // Add your headers
-                    // .header(
-                    //     "Host",
-                    //     "C3Y46V7TCCGSDHUMHUZS2JRCL5WDX7UZS3JBJRDGBCGYVK2N7NTQ.oyster.run",
-                    // )
+                    .header(
+                        "Host",
+                        "C3Y46V7TCCGSDHUMHUZS2JRCL5WDX7UZS3JBJRDGBCGYVK2N7NTQ.oyster.run",
+                    )
                     .send()
                     .await?;
                 resp.text().await
@@ -37,14 +37,9 @@ async fn main() {
 
     bodies
         .for_each(|b| async {
-            let start_time = Instant::now();
             match b {
                 Ok(response_text) => {
-                    let elapsed_ms = start_time.elapsed().as_millis();
-                    println!(
-                        "Response: {}\nElapsed time: {}\n\n",
-                        response_text, elapsed_ms
-                    );
+                    println!("Response: {}\n", response_text,);
                 }
                 Err(e) => eprintln!("Error: {}", e),
             }
